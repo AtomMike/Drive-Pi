@@ -1,0 +1,99 @@
+/* app css stylesheet */
+
+@import 'type';
+@import 'navigation';
+
+html {
+  font-size: 100%;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+p, a {
+  color: #fff;
+}
+
+.main-wrap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.main-viewport {
+  float: left;
+  width: 85%;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.main-nav {
+  float: right;
+  // position: absolute;
+  bottom: 0;
+  display: inline-block;
+  width: 15%;
+  height: 100%;
+  background: #454545;
+  div {
+    height: 100%;
+  }
+}
+
+.notify-widget {
+  display: inline-block;
+  // position: absolute;
+  // float: left;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  background: #2b2b2b;
+  .content-wrapper {
+    margin: 0 5%;
+    vertical-align: middle;
+    line-height: 4rem;
+  }
+  .notification-rt {
+    float: right;
+  }
+}
+
+.ui-view-container {
+  display: inline-block;
+  // position: absolute;
+  top: 10%;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+  .view {
+    padding: 0 5%;
+  }
+}
+
+
+.playback-widget {
+  display: inline-block;
+  // position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: #2b2b2b;
+  .content-wrapper {
+    margin: 0 5%;
+    vertical-align: middle;
+  }
+}

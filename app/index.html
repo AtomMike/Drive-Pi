@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="DrivePi" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="DrivePi" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="DrivePi" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="DrivePi" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>DrivePi App</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div class="main-wrap" ng-controller="AppCtrl">
+
+    <div class="main-viewport">
+
+      <div class="notify-widget">
+        <div class="content-wrapper"><span class="clock">17:45</span> <span class="notification-rt">MPD: {{mpdStatus}}</span></div>
+      </div>
+
+      <div ui-view class="ui-view-container"></div>
+
+      <div class="playback-widget">
+        <div class="content-wrapper">
+          <p class="h3">Now Playing:</p>
+          <p class="h4">{{nowPlaying.artist}}</p>
+          <p>{{nowPlaying.name}}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div ng-include="'views/partials/main-nav.html'" class="main-nav"></div>
+
+  </div>
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+  <script src="lib/mpd.js"></script>
+  <script src="lib/websockify/websock.js"></script>
+  <script src="lib/websockify/util.js"></script>
+  <script src="lib/websockify/base64.js"></script>
+
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/app.js"></script>
+  
+</body>
+</html>

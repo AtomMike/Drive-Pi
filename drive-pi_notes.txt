@@ -1,0 +1,28 @@
+Front-end for a RaspberryPi-based in-car entertainment and navigation system
+
+Starting the Websockify connection:
+-----------------------------------
+websockify 8800 localhost:6600
+           (listen port)  (MPD server port)
+
+To get the above running on boot:
+Create a startup script in: /usr/local/sbin/websockify.local
+Make it executable: chmod +x /usr/local/sbin/websockify.local
+Create a service in: /etc/systemd/system/websockify.service
+Enable the service with: systemctl enable websockify
+
+https://bbs.archlinux.org/viewtopic.php?id=154338
+
+
+Starting the web server:
+------------------------
+cd public_html/www
+php -S localhost:8000
+
+
+(these should be put into a .sh file)
+
+
+External dev/test:
+------------------------
+Apache service enabled

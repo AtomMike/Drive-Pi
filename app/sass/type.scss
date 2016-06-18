@@ -1,0 +1,47 @@
+@import '../fonts/titillium/stylesheet.css';
+
+html {
+    font-family: 'titillium_weblight';
+  }
+
+h1 {
+  display: inline-block;
+}
+h2 {
+
+}
+
+.huge-clock {
+  width: 100%;
+  text-align: center;
+  p {
+    font-size: 12rem;
+    line-height: 20rem;
+    margin: auto;
+    font-family: 'titillium_webthin';
+  }
+}
+
+.playback-widget {
+  p {
+    font-size: 1.2rem;
+    line-height: 1rem
+  }
+  p.artist {
+    font-size: 1.2rem;
+  }
+}
+
+p.h3 {
+  font-size: 1rem;
+  color: #d2d2d2;
+}
+
+.notify-widget {
+  .clock {
+    font-size: 2rem;
+  }
+  .notification-rt {
+    font-size: 1.3rem;
+  }
+}
