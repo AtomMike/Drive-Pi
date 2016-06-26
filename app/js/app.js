@@ -27,10 +27,15 @@ angular.module('DrivePi', [
     })
 
     .state('music', {
-      url: '/music',
+      url: '/music?param?',
       cache: false,
       templateUrl: 'views/music.html',
-      controller: 'MusicCtrl'
+      controller: 'MusicCtrl',
+      params: {
+        directory: {
+            value: '0'
+        }
+      }
     })
 
     .state('radio', {
