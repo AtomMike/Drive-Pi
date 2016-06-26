@@ -1,12 +1,18 @@
 <div class="view">
 
-  <h1>Music</h1>
+  <header>
+    <h1>Music</h1>
+    <h2 ng-bind="getAlbumTitle()"></h2>
+  </header>
 
-  <p>This is the Music player</p>
-
-  <p>Directory:</p>
-  <!-- <div ng-repeat="(key, value) in directoryItems">
-    <p ng-bind-html="value">{{value}}</p>
-  </div> -->
+  <div ng-scroll class="track-list">
+    <ul>
+      <li ng-repeat="(key, value) in directoryContents track by $index" ng-swipe-left="swipeLeft()">
+        <a ng-click="dirSelect(value.itemType, value.path, $index)">
+          <span>{{value.dirname}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 
 </view>
