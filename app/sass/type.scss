@@ -4,11 +4,33 @@ html {
     font-family: 'titillium_weblight';
   }
 
+h1, h2 {
+  margin: auto;
+}
 h1 {
   display: inline-block;
+  font-size: 1.8em;
 }
 h2 {
+  font-size: 1.1em;
+}
 
+ul {
+  list-style-type: none;
+  padding: 0;
+  li {
+    line-height: 4rem;
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-bottom: 1px solid #7e7e7e;
+      padding: 0 5%;
+      &:hover {
+        background-color: #325563;
+      }
+    }
+  }
 }
 
 .huge-clock {
@@ -24,11 +46,15 @@ h2 {
 
 .playback-widget {
   p {
-    font-size: 1.2rem;
-    line-height: 1rem
+    font-size: 1.4rem;
+    line-height: 1rem;
+    margin: 0 auto 1rem;
   }
   p.artist {
-    font-size: 1.2rem;
+    // font-size: 1.2rem;
+  }
+  p.track {
+    // font-size: 1.6rem;
   }
 }
 

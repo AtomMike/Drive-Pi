@@ -3,8 +3,29 @@
 html {
   font-family: 'titillium_weblight'; }
 
+h1, h2 {
+  margin: auto; }
+
 h1 {
-  display: inline-block; }
+  display: inline-block;
+  font-size: 1.8em; }
+
+h2 {
+  font-size: 1.1em; }
+
+ul {
+  list-style-type: none;
+  padding: 0; }
+  ul li {
+    line-height: 4rem; }
+    ul li a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-bottom: 1px solid #7e7e7e;
+      padding: 0 5%; }
+      ul li a:hover {
+        background-color: #325563; }
 
 .huge-clock {
   width: 100%;
@@ -16,11 +37,9 @@ h1 {
     font-family: 'titillium_webthin'; }
 
 .playback-widget p {
-  font-size: 1.2rem;
-  line-height: 1rem; }
-
-.playback-widget p.artist {
-  font-size: 1.2rem; }
+  font-size: 1.4rem;
+  line-height: 1rem;
+  margin: 0 auto 1rem; }
 
 p.h3 {
   font-size: 1rem;
@@ -49,7 +68,8 @@ a {
     .main-nav ul li a {
       display: block;
       width: 100%;
-      height: 100%; }
+      height: 100%;
+      border-bottom: 1px solid #7e7e7e; }
       .main-nav ul li a:hover {
         background: #3286a1; }
 
@@ -66,6 +86,9 @@ body {
   background: #000;
   color: #fff;
   font-size: 1.5rem; }
+
+header {
+  padding: 0 5%; }
 
 p, a {
   color: #fff; }
@@ -111,18 +134,74 @@ p, a {
   top: 10%;
   left: 0;
   width: 100%;
-  height: 70%;
+  height: 65%;
   overflow: hidden; }
   .ui-view-container .view {
-    padding: 0 5%; }
+    width: 100%;
+    height: 100%; }
 
 .playback-widget {
   display: inline-block;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 20%;
+  height: 25%;
   background: #2b2b2b; }
+  .playback-widget .col-1 {
+    display: inline-block;
+    width: 20%;
+    height: 100%; }
+  .playback-widget .col-2 {
+    display: inline-block;
+    width: 87%;
+    height: auto;
+    vertical-align: top; }
   .playback-widget .content-wrapper {
-    margin: 0 5%;
+    margin: 10px 2%;
     vertical-align: middle; }
+  .playback-widget .album-thumb {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: #6b6b6b; }
+  .playback-widget .album-meta {
+    display: inline-block;
+    width: 100%;
+    height: 80%;
+    vertical-align: top;
+    margin: auto 10px; }
+    .playback-widget .album-meta .album-col-1, .playback-widget .album-meta .album-col-2 {
+      display: inline-block;
+      vertical-align: top;
+      background: #4b4b4b;
+      height: 90px;
+      padding: 1rem; }
+    .playback-widget .album-meta .album-col-1 {
+      width: 30%; }
+    .playback-widget .album-meta .album-col-2 {
+      width: 60%; }
+  .playback-widget .track-data {
+    display: inline-block;
+    width: 100%;
+    height: 20%;
+    vertical-align: top;
+    margin: auto 10px; }
+    .playback-widget .track-data .progress-bar-bg {
+      display: inline-block;
+      width: 100%;
+      height: 30px;
+      background: #000000; }
+      .playback-widget .track-data .progress-bar-bg .progress-bar {
+        display: block;
+        height: 100%;
+        background: #2982a3; }
+
+.track-list {
+  display: inline-block;
+  width: 100%;
+  height: 80%;
+  overflow-y: scroll; }
+  .track-list ul {
+    display: block;
+    width: 100%;
+    height: auto; }

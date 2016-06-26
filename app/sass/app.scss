@@ -20,6 +20,10 @@ body {
   font-size: 1.5rem;
 }
 
+header {
+  padding: 0 5%;
+}
+
 p, a {
   color: #fff;
 }
@@ -76,10 +80,12 @@ p, a {
   top: 10%;
   left: 0;
   width: 100%;
-  height: 70%;
+  height: 65%;
   overflow: hidden;
   .view {
-    padding: 0 5%;
+    width: 100%;
+    height: 100%;
+    // padding: 0 5%;
   }
 }
 
@@ -90,10 +96,81 @@ p, a {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 20%;
+  height: 25%;
   background: #2b2b2b;
+
+  .col-1 {
+    display: inline-block;
+    width: 20%;
+    height: 100%;
+  }
+  .col-2 {
+    display: inline-block;
+    width: 87%;
+    height: auto;
+    vertical-align: top;
+  }
+
   .content-wrapper {
-    margin: 0 5%;
+    margin: 10px 2%;
     vertical-align: middle;
+  }
+  .album-thumb {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: #6b6b6b;
+  }
+  .album-meta {
+    display: inline-block;
+    width: 100%;
+    height: 80%;
+    vertical-align: top;
+    margin: auto 10px;
+
+    .album-col-1, .album-col-2 {
+      display: inline-block;
+      vertical-align: top;
+      background: #4b4b4b;
+      height: 90px;
+      padding: 1rem;
+    }
+    .album-col-1 {
+      width: 30%;
+    }
+    .album-col-2 {
+      width: 60%;
+    }
+  }
+  .track-data {
+    display: inline-block;
+    width: 100%;
+    height: 20%;
+    vertical-align: top;
+    margin: auto 10px;
+    .progress-bar-bg {
+      display: inline-block;
+      width: 100%;
+      height: 30px;
+      background: #000000;
+      .progress-bar {
+        display: block;
+        // width: 0;
+        height: 100%;
+        background: #2982a3;
+      }
+    }
+  }
+}
+
+.track-list {
+  display: inline-block;
+  width: 100%;
+  height: 80%;
+  overflow-y: scroll;
+  ul {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 }
