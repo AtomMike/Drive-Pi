@@ -31,13 +31,7 @@
 
       <div ui-view class="ui-view-container"></div>
 
-      <div class="playback-widget">
-        <div class="content-wrapper">
-          <p class="h3">Now Playing:</p>
-          <p class="h4">{{nowPlaying.artist}}</p>
-          <p>{{nowPlaying.name}}</p>
-        </div>
-      </div>
+      <div ng-include="'views/partials/playback-widget.html'" class="playback-widget"></div>
 
     </div>
 
@@ -52,14 +46,15 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 
-  <script src="lib/mpd.js"></script>
   <script src="lib/websockify/websock.js"></script>
   <script src="lib/websockify/util.js"></script>
   <script src="lib/websockify/base64.js"></script>
 
+  <script src="lib/mpd.js"></script>
+
   <script src="js/services.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/app.js"></script>
-  
+
 </body>
 </html>
