@@ -24,6 +24,10 @@ header {
   padding: 0 5%;
 }
 
+.content-container {
+  padding: 0 5%;
+}
+
 p, a {
   color: #fff;
 }
@@ -136,10 +140,10 @@ p, a {
       padding: 1rem;
     }
     .album-col-1 {
-      width: 30%;
+      width: 40%;
     }
     .album-col-2 {
-      width: 60%;
+      width: 50%;
     }
   }
   .track-data {

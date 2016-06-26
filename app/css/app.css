@@ -13,6 +13,9 @@ h1 {
 h2 {
   font-size: 1.1em; }
 
+p {
+  line-height: 2rem; }
+
 ul {
   list-style-type: none;
   padding: 0; }
@@ -38,8 +41,7 @@ ul {
 
 .playback-widget p {
   font-size: 1.4rem;
-  line-height: 1rem;
-  margin: 0 auto 1rem; }
+  margin: 0 auto 0.4rem; }
 
 p.h3 {
   font-size: 1rem;
@@ -88,6 +90,9 @@ body {
   font-size: 1.5rem; }
 
 header {
+  padding: 0 5%; }
+
+.content-container {
   padding: 0 5%; }
 
 p, a {
@@ -177,9 +182,9 @@ p, a {
       height: 90px;
       padding: 1rem; }
     .playback-widget .album-meta .album-col-1 {
-      width: 30%; }
+      width: 40%; }
     .playback-widget .album-meta .album-col-2 {
-      width: 60%; }
+      width: 50%; }
   .playback-widget .track-data {
     display: inline-block;
     width: 100%;

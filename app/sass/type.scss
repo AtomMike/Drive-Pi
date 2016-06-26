@@ -15,6 +15,10 @@ h2 {
   font-size: 1.1em;
 }
 
+p {
+  line-height: 2rem;
+}
+
 ul {
   list-style-type: none;
   padding: 0;
@@ -47,8 +51,7 @@ ul {
 .playback-widget {
   p {
     font-size: 1.4rem;
-    line-height: 1rem;
-    margin: 0 auto 1rem;
+    margin: 0 auto 0.4rem;
   }
   p.artist {
     // font-size: 1.2rem;
