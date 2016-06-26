@@ -26,3 +26,12 @@ php -S localhost:8000
 External dev/test:
 ------------------------
 Apache service enabled
+
+
+
+
+Front end UI
+====================================
+TODO:
+View history: Need to return user to same music view if they jumped to another section
+Touch on playback widget should shortcut to this too
