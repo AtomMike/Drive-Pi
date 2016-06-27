@@ -187,4 +187,14 @@ angular.module('DrivePi.controllers', [])
 })
 
 .controller('NavigationCtrl', function( $scope, $window, $interval ) {
+
+   var mySwiper = new Swiper ('.swiper-container', {
+     // Optional parameters
+     direction: 'vertical',
+     loop: false,
+     scrollbar: '.swiper-scrollbar',
+     touchRatio: 1,
+     freeMode: true
+   })
+
 })
