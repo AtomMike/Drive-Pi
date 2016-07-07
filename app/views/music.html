@@ -3,16 +3,28 @@
   <header>
     <h1>Music</h1>
     <h2 ng-bind="getAlbumTitle()"></h2>
+      <input id="progress-bar-range" type="range" min="0" max="100" value="25" />
   </header>
 
-  <div ng-scroll class="track-list">
-    <ul>
-      <li ng-repeat="(key, value) in directoryContents track by $index" ng-swipe-left="swipeLeft()">
-        <a ng-click="dirSelect(value.itemType, value.path, $index)">
-          <span>{{value.dirname}}</span>
-        </a>
-      </li>
-    </ul>
+  <div class="file-nav-wrapper">
+
+    <div class="dir-nav-column">
+      <ul>
+        <li><a ng-click="navToRoot()"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+        <li><a ng-click="navGoBack()"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a></li>
+      </ul>
+    </div>
+
+    <div ng-scroll class="list track-list">
+      <ul>
+        <li ng-repeat="(key, value) in directoryContents track by $index" ng-swipe-left="swipeLeft()">
+          <a ng-click="dirSelect(value.itemType, value.path, $index)">
+            <span>{{value.dirname}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
   </div>
 
 </view>
