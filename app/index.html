@@ -12,21 +12,20 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
   <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/angularjs-slider/dist/rzslider.css"/>
+
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 
 <body>
-
-  <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
 
   <div class="main-wrap text-unselectable" ng-controller="AppCtrl">
 
     <div class="main-viewport">
 
       <div class="notify-widget">
-        <div class="content-wrapper"><span class="clock">17:45</span> <span class="notification-rt">MPD: {{mpdStatus}}</span></div>
+        <div class="content-wrapper"><span class="clock" ng-bind="getTime()"></span> <span class="notification-rt">MPD: {{mpdStatus}}</span></div>
       </div>
 
       <div ui-view class="ui-view-container"></div>
@@ -52,6 +51,7 @@
 
   <script src="lib/mpd.js"></script>
   <script src="lib/swiper/swiper.js"></script>
+  <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
 
   <script src="js/services.js"></script>
   <script src="js/controllers.js"></script>
