@@ -1,5 +1,19 @@
 angular.module('DrivePi.controllers', [])
 
+.controller('mainNavCtrl', function($scope, $rootScope){
+  $scope.currentPage = 'home';
+
+  $scope.navItemActive = function(navItem){
+    if ($scope.currentPage == navItem) {
+      return 'active';
+    }
+  }
+
+  $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+    $scope.currentPage = toState.name;
+  })
+
+})
 
 .controller('AppCtrl', function( $scope, $window, $interval, $timeout, MPDServices, Storage ) {
   $scope.nowPlaying = {};

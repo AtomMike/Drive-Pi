@@ -88,6 +88,8 @@ a {
       line-height: 9rem; }
       .main-nav ul li a:hover {
         background: #3286a1; }
+  .main-nav ul li.active a {
+    background: #3286a1; }
   .main-nav ul i {
     vertical-align: top;
     font-size: 3rem;
