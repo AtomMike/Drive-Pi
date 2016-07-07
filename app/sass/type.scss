@@ -1,20 +1,28 @@
 @import '../fonts/titillium/stylesheet.css';
 
 html {
-    font-family: 'titillium_weblight';
-  }
+  overflow-x: hidden;
+}
+body {
+  font-family: 'titillium_weblight';
+  font-size: 100%;
+}
 
 h1, h2 {
   margin: auto;
 }
 h1 {
   display: inline-block;
-  font-size: 1.8em;
+  font-size: 2rem;
 }
 h2 {
-  font-size: 1.1em;
+  font-size: 1.8rem;
+  min-height: 2.4rem;
 }
 
+p, li {
+  font-size: 1.4rem;
+}
 p {
   line-height: 2rem;
 }
@@ -50,13 +58,14 @@ ul {
 
 .playback-widget {
   p {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin: 0 auto 0.4rem;
   }
   p.artist {
     // font-size: 1.2rem;
   }
   p.track {
+    min-height: 2rem;
     // font-size: 1.6rem;
   }
 }
@@ -71,6 +80,6 @@ p.h3 {
     font-size: 2rem;
   }
   .notification-rt {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
 }
