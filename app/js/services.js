@@ -1,10 +1,33 @@
+var dataStore = [];
+
 angular.module('DrivePi.music', [])
+
+.factory('Storage', ['$rootScope', function ($rootScope) {
+
+  // Local storage:
+    return {
+
+      save: function () {
+        window.localStorage['localStorage'] = JSON.stringify(dataStore);
+      },
+      restore: function() {
+				if (window.localStorage['localStorage']) {
+        	var storedData = JSON.parse(window.localStorage['localStorage']);
+	        return storedData;
+				}
+      }
+
+    };
+  }]
+)
 
 .factory('MPDServices', function($q, $timeout, $http, $log, $rootScope, $q) {
 
 	// Get the currently playing song's details:
 	function getPlaying() {
+
 		var currentSong = mpdClient.getCurrentSong();
+    var nextSong = mpdClient.getNextSong();
 
 		if (currentSong) {
 			var artistInfo = currentSong.getArtist();
@@ -18,6 +41,19 @@ angular.module('DrivePi.music', [])
         'album' : currentSong.getAlbum(),
         'year' : trackMetadata.date
       }
+
+      if (nextSong) {
+
+        var nextSongObj = {
+            'id' :  nextSong.getId(),
+            'name' :  nextSong.getDisplayName(),
+            'artist' : nextSong.getArtist(),
+            'album' : nextSong.getAlbum(),
+        }
+
+        songObject.next = nextSongObj;
+      }
+
       return songObject;
 		}
 
