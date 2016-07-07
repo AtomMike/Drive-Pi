@@ -4,7 +4,8 @@ mpdClient = MPD(8800);
 angular.module('DrivePi', [
   'ui.router',
   'DrivePi.controllers',
-  'DrivePi.music'
+  'DrivePi.music',
+  'rzModule'
 ])
 
 .config(function($urlRouterProvider, $stateProvider) {

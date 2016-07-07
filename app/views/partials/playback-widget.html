@@ -1,10 +1,17 @@
   <div class="content-wrapper">
 
       <div class="col-1 album-thumb">
+        <div></div>
       </div>
 
       <div class="col-2">
-
+        <div class="track-data">
+          <rzslider rz-slider-model="progressBar.value"
+           rz-slider-options="progressBar.options"></rzslider>
+          <!-- <div class="progress-bar-bg">
+            <div class="progress-bar" style="width:{{progressBarWidth}}%"></div>
+          </div> -->
+        </div>
         <div class="album-meta">
           <div class="album-col-1">
             <p class="artist">{{nowPlaying.artist}}</p>
@@ -13,14 +20,13 @@
           <div class="album-col-2">
             <p class="track">{{nowPlaying.name}}</p>
             <div class="transport-controls">
-              
+              <ul class="transport-controls">
+                <li><i class="fa fa-fast-backward" aria-hidden="true"></i></li>
+                <li><i class="fa fa-stop" aria-hidden="true" ng-click="stopMusic()"></i></li>
+                <li><i class="fa fa-pause" aria-hidden="true" ng-click="pauseMusic()"></i></li>
+                <li><i class="fa fa-fast-forward" aria-hidden="true" ng-click="nextSong()"></i></li>
+              </ul>
             </div>
-          </div>
-        </div>
-
-        <div class="track-data">
-          <div class="progress-bar-bg">
-            <div class="progress-bar" style="width:{{progressBarWidth}}%"></div>
           </div>
         </div>
 
