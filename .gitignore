@@ -1,4 +1,5 @@
 node_modules/
 bower_components/
-tmp
-img/albums
+app/bower_components/
+tmp/
+app/img/albums/
