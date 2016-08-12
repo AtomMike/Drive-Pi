@@ -17,11 +17,8 @@
 
     <div ng-scroll class="list track-list">
       <ul>
-        <li ng-repeat="(key, value) in directoryContents track by $index" ng-swipe-left="swipeLeft()">
-          <a ng-click="dirSelect(value.itemType, value.path, $index)">
-            <span>{{value.dirname}}</span>
-          </a>
-        </li>
+        <track-item ng-repeat="(key, value) in directoryContents track by $index" data-itemType="{{value.itemType}}" data-trackId="{{value.trackId}}" data-dirName="{{value.dirname}}" data-dirPath="{{value.path}}"
+        data-now-playing="{{nowPlaying}}"></track-item>
       </ul>
     </div>
 
