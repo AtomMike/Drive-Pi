@@ -11,15 +11,18 @@ angular.module('DrivePi.controllers', [])
 
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
     $scope.currentPage = toState.name;
-  })
+    // console.log('statechange: ' + $scope.currentPage);
+    $scope.navItemActive();
+  });
+
+  $scope.navItemActive();
 
 })
 
 .controller('AppCtrl', function( $scope, $window, $interval, $timeout, MPDServices, Storage ) {
   $scope.nowPlaying = {};
-  $scope.mpdStatus = "Waiting for connection...";
-  $scope.nowPlaying = {};
   $scope.nowPlaying.artist = 'Awaiting queue...';
+  $scope.mpdStatus = 'Waiting for connection...';
   $scope.progressBarWidth = 0;
   $scope.isAlbum = false;
   $scope.currentlyPlaying = false;
@@ -82,10 +85,10 @@ angular.module('DrivePi.controllers', [])
 
       // Initialise in last state if saved:
       if (dataStore && stateLoaded == false) {
-        console.log(dataStore);
+        // console.log(dataStore);
         $timeout(function() {
           var path = dataStore.songPath;
-          getNewDirectory(path);
+          $scope.getNewDirectory(path);
           // addToPlaylist(path);
 
           // If last track and we're set to Album Repeat, go to track '0' (first track)
@@ -173,21 +176,50 @@ angular.module('DrivePi.controllers', [])
     console.log(songId);
     mpdClient.stop();
     mpdClient.playById( songId );
-
     $scope.playState = 'play';
+    // $scope.itemHighlighted = songId;
 
   }
 
   // Play previous track:
   $scope.prevSong = function(){
+
+    if ($scope.nowPlaying.queuePosition > 0) {
+      var songId = $scope.nowPlaying.id - 1;
+      mpdClient.stop();
+      mpdClient.playById( songId );
+      $scope.playState = 'play';
+      // $scope.itemHighlighted = songId;
+    }
+
+  }
+
+  $scope.canSkipBackward = function(){
+
+    if ($scope.nowPlaying.queuePosition > 0) {
+      return true;
+    }else{
+      return false
+    }
+
+  }
+
+  $scope.canSkipForward = function(){
+
+    if ($scope.nowPlaying.next) {
+      return true;
+    }else{
+      return false
+    }
+
   }
 
 // Get the current directory:
     $scope.currentDirectory = [];
-    getNewDirectory = function(path){
+    $scope.getNewDirectory = function(path){
 
       $timeout(function() {
-
+        
           MPDServices.getDirectory(path).then(function(dirContents){
 
             // console.log(dirContents);
@@ -231,16 +263,27 @@ angular.module('DrivePi.controllers', [])
 
 
 
-.controller('MusicCtrl', function( $scope, $stateParams, $window, $interval, $timeout, MPDServices, Storage ) {
+.controller('MusicCtrl', function( $scope, $rootScope, $stateParams, $window, $interval, $timeout, MPDServices, Storage, NowPlayingFactory ) {
 
   var basePath = 'Music';
   var params = $stateParams;
   var dirName = '';
 
-  if (dataStore) {
-    basePath = dataStore.songPath;
-  }
+  $scope.currentQueue = [];
+  $scope.lastNavigatedPath = '';
 
+  $scope.returnAlbumPath = function(path){
+    path_array = path.split('/');
+    var album_path = [];
+    for (var i = 0; i < path_array.length; i++) {
+      if ( (path_array[i].indexOf('mp3') !== -1) || (path_array[i].indexOf('mp4') !== -1) || (path_array[i].indexOf('m4a') !== -1) ) {
+        break;
+      }
+      album_path.push(path_array[i]);
+    }
+
+    return album_path.join('/');
+  }
 
   $scope.getAlbumTitle = function(){
     var artist = '';
@@ -266,7 +309,14 @@ angular.module('DrivePi.controllers', [])
     return artist + album;
   }
 
-  getNewDirectory(basePath);
+/* Get the album path to navigate to if coming from another tab */
+  if (dataStore) {
+    albumPath = $scope.returnAlbumPath(dataStore.songPath);
+    basePath = albumPath;
+    console.log(basePath);
+  }
+
+  $scope.getNewDirectory(basePath);
 
   addAlbum = function(path){
     clearPlaylist();
@@ -275,46 +325,58 @@ angular.module('DrivePi.controllers', [])
   }
 
   $scope.dirSelect = function(type, path, trackId){
-    console.log('dirselect');
-    if (type == 'track') {
 
-      console.log('isAlbum '+$scope.isAlbum);
-      if ($scope.isAlbum == true) {
-        addAlbum(path);
-      }
-
-      trackId = trackId;
-      mpdClient.play(trackId);
-
-      // Save the current song state: -- Move into a factory --
-      $timeout(function() {
-        var newSongInfo = mpdClient.getCurrentSong();
-			  var trackMetadata = newSongInfo.getMetadata()
-        var songObject = {
-          'songId': newSongInfo.getId(),
-          'songPath': path,
-          'songTitle': newSongInfo.getTitle(),
-          'songPlayTime': mpdClient.getCurrentSongTime(),
-          'songDuration': newSongInfo.getDuration(),
-          'songArtist': newSongInfo.getArtist(),
-          'songAlbum': newSongInfo.getAlbum(),
-          'songYear': trackMetadata.date,
-        };
-
-        // Update the local Storage:
-  			dataStore = songObject;
-  			Storage.save();
-      }, 1000);
-
-    }else{
-      getNewDirectory(path);
+    if (trackId) {
+      trackId = trackId.substr(0, trackId.lastIndexOf('/'));
+      trackId = trackId-1;
     }
-    // $scope.dirData = MPDServices.getDirectory(path);
-      // console.log($scope.dirData.dirName);
-    // if ($scope.dirData[0].track !== undefined && $scope.dirData[0].track !== ' ') {
-    //   console.log('this is a tune!');
-    // }
-      // console.log($scope.dirData);
+
+    $timeout(function() {
+
+      if (type == 'track') {
+
+        if ($scope.isAlbum == true) {
+          addAlbum(path);
+        }
+
+        trackId = trackId;
+
+        mpdClient.play(trackId);
+        $scope.currentlyPlaying = mpdClient.getCurrentSong();
+
+        /* --- Update the nowplaying factory --- */
+        NowPlayingFactory.set( {'itemType':type, 'path':path, 'trackId':trackId} );
+
+        $scope.currentQueue = MPDServices.currentQueue();
+
+        // Save the current song state: -- Move into a factory! --
+        $timeout(function() {
+          var newSongInfo = mpdClient.getCurrentSong();
+  			  var trackMetadata = newSongInfo.getMetadata();
+          var songObject = {
+            'songId': newSongInfo.getId(),
+            'songPath': path,
+            'songTitle': newSongInfo.getTitle(),
+            'songPlayTime': mpdClient.getCurrentSongTime(),
+            'songDuration': newSongInfo.getDuration(),
+            'songArtist': newSongInfo.getArtist(),
+            'songAlbum': newSongInfo.getAlbum(),
+            'songYear': trackMetadata.date,
+          };
+
+          // Update the local Storage:
+    			dataStore = songObject;
+    			Storage.save();
+        }, 1000);
+
+      }else{
+        $scope.getNewDirectory(path);
+      };
+
+      $scope.lastNavigatedPath = path;
+
+     });
+
   };
 
   // UI input
@@ -325,12 +387,17 @@ angular.module('DrivePi.controllers', [])
   $scope.navToRoot = function(){
     console.log('Go to root...');
     var path = 'Music';
-    getNewDirectory(path);
+    $scope.getNewDirectory(path);
 
     // if ($scope.isAlbum == true) {
     //   addAlbum(path);
     // }
   }
+
+  $rootScope.$on('dir.selected', function(event, val){
+    // console.log('NowPlayingFactory ',NowPlayingFactory.get());
+    $scope.dirSelect(val.itemType, val.path, val.trackId);
+  });
 
 })
 
