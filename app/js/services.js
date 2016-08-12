@@ -39,7 +39,9 @@ angular.module('DrivePi.music', [])
         'duration' : currentSong.getDuration(),
         'artist' : artistInfo,
         'album' : currentSong.getAlbum(),
-        'year' : trackMetadata.date
+        'year' : trackMetadata.date,
+        'queuePosition' : currentSong.getQueuePosition(),
+        'dirPath' : currentSong.getPath()
       }
 
       if (nextSong) {
@@ -58,6 +60,23 @@ angular.module('DrivePi.music', [])
 		}
 
 	}
+
+  var getQueue = function(){
+
+    var queue = mpdClient.getQueue().getSongs();
+    for (var i = 0; i < queue.length; i++) {
+      // if (currentSongID == (queSongID-1) ) {
+        // console.log(queue[i]);
+      // }
+    }
+
+    // Queue info:
+    // $scope.currentSongQuePos = mpdClient.QueueSong().getQueuePosition();
+    // console.log($scope.currentSongQuePos);
+
+    return queue;
+
+  }
 
 	var getDirectory = function(dirPath) {
 		var directoryContents = [];
@@ -113,6 +132,8 @@ angular.module('DrivePi.music', [])
 	var currentQueue = function(){
 		var mpdQueue		 = mpdClient.getQueue();
 		var currentSong	 = mpdClient.getCurrentSongID();
+    var queueSongs = [];
+		var deferred_queueSongs = $q.defer();
 
   	mpdQueue.getSongs().forEach(function(playlistSong){
 			var songObject = {
@@ -123,10 +144,14 @@ angular.module('DrivePi.music', [])
 				'album' : playlistSong.getAlbum(),
 				'year' : playlistSong.date
 			}
-			// console.log(songObject);
-		})
+			queueSongs.push(songObject);
+		});
 
-		return currentSong;
+    $timeout(function() {
+      deferred_queueSongs.resolve(queueSongs);
+    }, 750);
+
+		return deferred_queueSongs.promise;
 	}
 
 	var getMsg = function(){
@@ -153,8 +178,27 @@ angular.module('DrivePi.music', [])
     	return getDirectory(dirPath);
     },
 
+    getQueue: function(){
+      return getQueue()
+    },
+
 		getMsg:getMsg
 
 	}
 
+})
+
+.factory('NowPlayingFactory', function(){
+    var track = {
+    };
+
+    track.set = function(val) {
+      this.value = val;
+    };
+
+    track.get = function() {
+        return this.value;
+    };
+
+    return track;
 });
