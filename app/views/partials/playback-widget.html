@@ -1,7 +1,9 @@
   <div class="content-wrapper">
 
       <div class="col-1 album-thumb">
-        <div></div>
+        <a title="Go to album" ng-click="getNewDirectory(nowPlaying.dirPath)">
+          <div background-img="{{nowPlaying.dirPath}}"></div>
+        </a>
       </div>
 
       <div class="col-2">
@@ -18,10 +20,10 @@
             <p class="track">{{nowPlaying.name}}</p>
             <div class="transport-controls">
               <ul class="transport-controls">
-                <li><i class="fa fa-fast-backward" aria-hidden="true"></i></li>
+                <li><i class="fa fa-fast-backward" aria-hidden="true" ng-click="prevSong()" ng-class="{'unselectable' : !canSkipBackward()}"></i></li>
                 <li><i class="fa fa-stop" aria-hidden="true" ng-click="stopMusic()"></i></li>
                 <li><i class="fa fa-pause" aria-hidden="true" ng-click="pauseMusic()"></i></li>
-                <li><i class="fa fa-fast-forward" aria-hidden="true" ng-click="nextSong()"></i></li>
+                <li><i class="fa fa-fast-forward" aria-hidden="true" ng-click="nextSong()" ng-class="{'unselectable' : !canSkipForward()}"></i></li>
               </ul>
             </div>
           </div>
