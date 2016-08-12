@@ -104,6 +104,17 @@ a {
   .transport-controls i {
     font-size: 2.5rem; }
 
+.unselectable {
+  opacity: 0.2;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none; }
+
+.highlighted {
+  background: #3286a1; }
+
 /**
  * Swiper 3.3.1
  * Most modern mobile touch slider and framework with hardware accelerated transitions
@@ -724,11 +735,11 @@ p, a {
   background: #2b2b2b; }
   .playback-widget .col-1 {
     display: inline-block;
-    width: 15%;
+    width: 20%;
     height: 100%; }
   .playback-widget .col-2 {
     display: inline-block;
-    width: 84%;
+    width: 75%;
     height: auto;
     vertical-align: top; }
   .playback-widget .content-wrapper {
@@ -738,8 +749,9 @@ p, a {
     display: inline-block;
     background: #6b6b6b; }
     .playback-widget .album-thumb div {
-      width: 100px;
-      height: 100px; }
+      min-height: 150px;
+      background-size: cover;
+      background-repeat: no-repeat; }
   .playback-widget .album-meta {
     display: inline-block;
     width: 100%;
