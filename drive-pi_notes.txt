@@ -21,6 +21,7 @@ php -S localhost:8000
 
 
 (these should be put into a .sh file)
+-- Check what worked for this and update above --
 
 
 External dev/test:
@@ -32,6 +33,27 @@ Apache service enabled
 
 Front end UI
 ====================================
+BUGS:
+Switching to diff album won't update artwork if none set for new one
+If in single track view, clicking on title loads the wrong id
+
 TODO:
-View history: Need to return user to same music view if they jumped to another section
+Main nav selected tab highlight - update between reloads
+Clock will often fail to display - try making into directive
+View history: Need to return user to same music view if they jumped to another section (done for album view)
 Touch on playback widget should shortcut to this too
+Transport controls
+Widget should retain last played track
+Scrollbar for lists
+Tabbed overview of path, from root to current track
+Highlight playing track & album in lists (done for track)
+Background image
+Swiper for lists
+Start testing physical inputs (gpio)
+Pico power supply
+Amplifier
+Playback widget should allow navigation to the displayed artist/album/track on click
+Equalizer display?
+
+Done:
+Progress bar - make draggable
