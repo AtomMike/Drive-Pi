@@ -50,3 +50,17 @@ a {
     font-size: 2.5rem;
   }
 }
+
+.unselectable {
+  opacity: 0.2;
+
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.highlighted {
+  background: #3286a1;
+}
