@@ -104,12 +104,12 @@ p, a {
 
   .col-1 {
     display: inline-block;
-    width: 15%;
+    width: 20%;
     height: 100%;
   }
   .col-2 {
     display: inline-block;
-    width: 84%;
+    width: 75%;
     height: auto;
     vertical-align: top;
   }
@@ -121,8 +121,9 @@ p, a {
   .album-thumb {
     display: inline-block;
     div {
-      width: 100px;
-      height: 100px;
+      min-height: 150px;
+      background-size: cover;
+      background-repeat: no-repeat;
     }
     background: #6b6b6b;
   }
