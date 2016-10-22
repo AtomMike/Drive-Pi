@@ -1,4 +1,5 @@
 var dataStore = [];
+var lastNavigatedPath = '';
 
 angular.module('DrivePi.music', [])
 
