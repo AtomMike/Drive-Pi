@@ -1,8 +1,9 @@
 angular.module('DrivePi.controllers', [])
 
-.controller('mainNavCtrl', function($scope, $rootScope){
+.controller('mainNavCtrl', function($scope, $state, $rootScope, $timeout){
   $scope.currentPage = 'home';
 
+  /* Nav/tabs */
   $scope.navItemActive = function(navItem){
     if ($scope.currentPage == navItem) {
       return 'active';
@@ -11,15 +12,23 @@ angular.module('DrivePi.controllers', [])
 
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
     $scope.currentPage = toState.name;
-    // console.log('statechange: ' + $scope.currentPage);
+    console.log('statechange: ' + $scope.currentPage);
     $scope.navItemActive();
   });
 
+  $timeout(function(){
+    // console.log($state.current.name);
+    $scope.currentPage = $state.current.name;
+  })
+
   $scope.navItemActive();
+  /* --- */
 
 })
 
-.controller('AppCtrl', function( $scope, $window, $interval, $timeout, MPDServices, Storage ) {
+.controller('AppCtrl', function( $scope, $state, $window, $interval, $timeout, MPDServices, Storage ) {
+
+  $scope.trackPlaying = false;
   $scope.nowPlaying = {};
   $scope.nowPlaying.artist = 'Awaiting queue...';
   $scope.mpdStatus = 'Waiting for connection...';
@@ -28,6 +37,7 @@ angular.module('DrivePi.controllers', [])
   $scope.currentlyPlaying = false;
   $scope.duration = 0;
   $scope.playTime = 0;
+  // $scope.lastNavigatedPath = '';
 
   progressBarUpdate = function(sliderId, modelValue, highValue, pointerType){
     console.log(sliderId, modelValue, highValue, pointerType);
@@ -62,6 +72,7 @@ angular.module('DrivePi.controllers', [])
 
   // Restore the last song state from local storage:
   dataStore = Storage.restore();
+  console.log('datastore: ',dataStore);
 
   // Add track(s) to the queue so that they may be played:
   addToPlaylist = function(path){
@@ -111,6 +122,7 @@ angular.module('DrivePi.controllers', [])
         } else {
           var nowPlaying = MPDServices.getPlaying();
         }
+        $scope.trackPlaying = true;
         $scope.nowPlaying = nowPlaying;
         $scope.currentQueue = MPDServices.currentQueue();
 
@@ -132,20 +144,27 @@ angular.module('DrivePi.controllers', [])
       console.log('Reconnecting...');
     };
 
-    // Clock - return the time as a string:
-    $scope.getTime = function(){
-      var date = new Date();
-      hrs  = date.getHours();
-      mins = date.getMinutes();
-      secs = date.getSeconds();
-      hrs = ("0" + hrs).slice(-2);
-      mins = ("0" + mins).slice(-2);
-      time = hrs + ':' + mins;
-
-      return time;
-    };
-
   }, 1000);
+
+
+  // Clock - return the time as a string:
+  $scope.getTime = function(){
+    var date = new Date();
+    hrs  = date.getHours();
+    mins = date.getMinutes();
+    secs = date.getSeconds();
+    hrs = ("0" + hrs).slice(-2);
+    mins = ("0" + mins).slice(-2);
+    time = hrs + ':' + mins;
+
+    return time;
+  };
+
+  $scope.getViewTitle = function(){
+    // $timeout(function(){
+      return $state.current.name;
+    // })
+  }
 
   // Stop the current tune:
   $scope.stopMusic = function(){
@@ -219,10 +238,9 @@ angular.module('DrivePi.controllers', [])
     $scope.getNewDirectory = function(path){
 
       $timeout(function() {
-        
+
           MPDServices.getDirectory(path).then(function(dirContents){
 
-            // console.log(dirContents);
             $scope.directoryContents = [];
 
             if (dirContents !== undefined) {
@@ -254,6 +272,28 @@ angular.module('DrivePi.controllers', [])
         })
 
     };
+
+    $scope.songSearch = function(){
+      $scope.results = [];
+      console.log('click');
+      // console.log(mpdClient.getTagTypes());
+
+      mpdClient.tagSearch(
+        'title',
+        {artist: 'ABC'},
+        function(res){
+          console.log( res );
+        }
+      );
+
+      // mpdClient.tagSearch(
+      //      'album',
+      //      {artist:'abc'},
+      //      function(albums){
+      //         console.log(albums);
+      //      }
+      //  );
+    }
 })
 
 
@@ -265,12 +305,11 @@ angular.module('DrivePi.controllers', [])
 
 .controller('MusicCtrl', function( $scope, $rootScope, $stateParams, $window, $interval, $timeout, MPDServices, Storage, NowPlayingFactory ) {
 
-  var basePath = 'Music';
+  $scope.basePath = 'Music';
   var params = $stateParams;
   var dirName = '';
 
   $scope.currentQueue = [];
-  $scope.lastNavigatedPath = '';
 
   $scope.returnAlbumPath = function(path){
     path_array = path.split('/');
@@ -309,15 +348,6 @@ angular.module('DrivePi.controllers', [])
     return artist + album;
   }
 
-/* Get the album path to navigate to if coming from another tab */
-  if (dataStore) {
-    albumPath = $scope.returnAlbumPath(dataStore.songPath);
-    basePath = albumPath;
-    console.log(basePath);
-  }
-
-  $scope.getNewDirectory(basePath);
-
   addAlbum = function(path){
     clearPlaylist();
     path = path.substr(0, path.lastIndexOf('/'));
@@ -327,8 +357,12 @@ angular.module('DrivePi.controllers', [])
   $scope.dirSelect = function(type, path, trackId){
 
     if (trackId) {
-      trackId = trackId.substr(0, trackId.lastIndexOf('/'));
-      trackId = trackId-1;
+      /* Check what format the id is in, */
+      /* as sometimes it may be 'x/y', or simply 'x': */
+      if ( trackId.indexOf('/') !== -1 ) {
+        trackId = trackId.substr(0, trackId.lastIndexOf('/'));
+      }
+      trackId = parseInt(trackId)-1;
     }
 
     $timeout(function() {
@@ -365,7 +399,7 @@ angular.module('DrivePi.controllers', [])
           };
 
           // Update the local Storage:
-    			dataStore = songObject;
+    			dataStore.currentSong = songObject;
     			Storage.save();
         }, 1000);
 
@@ -373,7 +407,7 @@ angular.module('DrivePi.controllers', [])
         $scope.getNewDirectory(path);
       };
 
-      $scope.lastNavigatedPath = path;
+      lastNavigatedPath = path;
 
      });
 
@@ -388,10 +422,19 @@ angular.module('DrivePi.controllers', [])
     console.log('Go to root...');
     var path = 'Music';
     $scope.getNewDirectory(path);
+  }
+  $scope.navGoBack = function(){
+    // console.log('going back a level.');
+    var navPath = lastNavigatedPath.split('/');
+    var prevLevel = [];
+    for (var i = 0; i < navPath.length-1; i++) {
+      prevLevel[i] = navPath[i];
+    }
+    if ( prevLevel.length > 2 ) {
+      prevLevel.pop();
+    }
 
-    // if ($scope.isAlbum == true) {
-    //   addAlbum(path);
-    // }
+    $scope.dirSelect('', prevLevel.join('/'));
   }
 
   $rootScope.$on('dir.selected', function(event, val){
@@ -399,11 +442,46 @@ angular.module('DrivePi.controllers', [])
     $scope.dirSelect(val.itemType, val.path, val.trackId);
   });
 
+
+
+  /* Get the album path to navigate to if coming from another tab */
+  // if (dataStore) {
+  //   albumPath = $scope.returnAlbumPath(dataStore.songPath);
+  //   basePath = albumPath;
+  //   console.log(basePath);
+  // }
+
+  if ( lastNavigatedPath ) {
+    $scope.getNewDirectory($scope.returnAlbumPath(lastNavigatedPath));
+  }else{
+    $scope.getNewDirectory($scope.basePath);
+  }
+
 })
 
 
 
-.controller('RadioCtrl', function( $scope, $window, $interval ) {
+.controller('RadioCtrl', function( $scope, $window, $interval, $http, $httpParamSerializerJQLike ) {
+
+  $scope.tuneUp = function(){
+
+    $http({
+      url: '../php/radio_tune.php',
+      method: 'POST',
+      cache: false,
+      data: $httpParamSerializerJQLike({
+        'action': 'tune_up'
+      }),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).success(function(data){
+      console.log('success response', data);
+    }).error(function(xhr, desc, err){
+      console.log(xhr);
+      console.log("Details: " + desc + "\nError:" + err);
+    });
+
+  };
+
 })
 
 
