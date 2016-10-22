@@ -57,6 +57,7 @@ angular.module('DrivePi.directives', [])
       $scope.iAmCurrentTrack = false;
 
       $scope.dirSelected = function(itemType, path, trackId){
+        // console.log('id: ',$scope.trackId,'path: ',$scope.myPath);
         $rootScope.$emit('dir.selected', {itemType:$scope.itemType, path:$scope.myPath, trackId:$scope.trackId});
       }
 
@@ -104,7 +105,9 @@ angular.module('DrivePi.directives', [])
       // console.log(scope.currentlyPlaying);
 
       attrs.$observe('dirname', function(val){
-        scope.title = val;
+        if ( !scope.trackTitle ) {
+          scope.title = val;
+        }
       });
       attrs.$observe('itemtype', function(val){
         scope.itemType = val;
@@ -114,6 +117,10 @@ angular.module('DrivePi.directives', [])
       });
       attrs.$observe('dirpath', function(val){
         scope.myPath = val;
+      });
+      attrs.$observe('tracktitle', function(val){
+        scope.trackTitle = val;
+        scope.title = scope.trackTitle;
       });
     }
   };
