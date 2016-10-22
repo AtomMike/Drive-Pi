@@ -1,9 +1,7 @@
 <div class="view">
 
   <header>
-    <h1>Music</h1>
     <h2 ng-bind="getAlbumTitle()"></h2>
-      <input id="progress-bar-range" type="range" min="0" max="100" value="25" />
   </header>
 
   <div class="file-nav-wrapper">
@@ -12,12 +10,14 @@
       <ul>
         <li><a ng-click="navToRoot()"><i class="fa fa-home" aria-hidden="true"></i></a></li>
         <li><a ng-click="navGoBack()"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a></li>
+        <li><a ng-click="songSearch()"><i class="fa fa-search" aria-hidden="true"></i></a></li>
       </ul>
     </div>
 
     <div ng-scroll class="list track-list">
       <ul>
-        <track-item ng-repeat="(key, value) in directoryContents track by $index" data-itemType="{{value.itemType}}" data-trackId="{{value.trackId}}" data-dirName="{{value.dirname}}" data-dirPath="{{value.path}}"
+        <track-item ng-repeat="(key, value) in directoryContents track by $index" data-itemType="{{value.itemType}}" data-trackId="{{value.trackId}}"
+        data-trackTitle="{{value.track}}" data-dirName="{{value.dirname}}" data-dirPath="{{value.path}}"
         data-now-playing="{{nowPlaying}}"></track-item>
       </ul>
     </div>
