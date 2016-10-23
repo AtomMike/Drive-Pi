@@ -29,13 +29,36 @@ a {
     font-size: 3rem;
     line-height: inherit; }
 
+.nav-row {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 40px; }
+
 .transport-controls {
-  margin: 0; }
-  .transport-controls ul li {
-    display: inline-block;
-    list-style-type: none;
-    margin: 0 15px; }
+  margin: 10px 0;
+  text-align: center; }
+  .transport-controls ul {
+    margin: 0 auto; }
+    .transport-controls ul li {
+      display: inline-block;
+      list-style-type: none;
+      margin: 0 15px; }
+    .transport-controls ul li.tc-button {
+      position: relative;
+      width: 40px;
+      height: 40px; }
+      .transport-controls ul li.tc-button .transport-play {
+        opacity: 1; }
+      .transport-controls ul li.tc-button .transport-pause {
+        opacity: 0; }
+    .transport-controls ul li.play .transport-play {
+      opacity: 0; }
+    .transport-controls ul li.play .transport-pause {
+      opacity: 1; }
   .transport-controls i {
+    position: absolute;
     font-size: 2.5rem; }
 
 .unselectable {

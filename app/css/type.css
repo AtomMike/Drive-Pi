@@ -1,10 +1,10 @@
 @import url(../fonts/titillium/stylesheet.css);
 html {
-  overflow-x: hidden; }
+  overflow-x: hidden;
+  font-size: 75%; }
 
 body {
-  font-family: 'titillium_weblight';
-  font-size: 100%; }
+  font-family: 'titillium_weblight'; }
 
 h1, h2 {
   margin: auto; }
@@ -48,17 +48,25 @@ ul {
 
 .playback-widget p {
   font-size: 1.2rem;
-  margin: 0 auto 0.4rem; }
+  margin: 5px 0 15px; }
 
-.playback-widget p.track {
-  min-height: 2rem; }
+.playback-widget span {
+  margin-right: 1em; }
+
+.playback-widget span.track {
+  font-size: 1.4rem; }
 
 p.h3 {
   font-size: 1rem;
   color: #d2d2d2; }
 
-.notify-widget .clock {
+.notify-widget .clock,
+.notify-widget .view-title {
   font-size: 2rem; }
+
+.notify-widget .view-title {
+  margin-left: 20px;
+  text-transform: capitalize; }
 
 .notify-widget .notification-rt {
   font-size: 1rem; }
