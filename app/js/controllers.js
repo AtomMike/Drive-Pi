@@ -26,7 +26,7 @@ angular.module('DrivePi.controllers', [])
 
 })
 
-.controller('AppCtrl', function( $scope, $state, $window, $interval, $timeout, MPDServices, Storage ) {
+.controller('AppCtrl', function( $scope, $state, $window, $interval, $timeout, MPDServices, Storage, SwitchPath ) {
 
   $scope.trackPlaying = false;
   $scope.nowPlaying = {};
@@ -40,7 +40,7 @@ angular.module('DrivePi.controllers', [])
   // $scope.lastNavigatedPath = '';
 
   progressBarUpdate = function(sliderId, modelValue, highValue, pointerType){
-    console.log(sliderId, modelValue, highValue, pointerType);
+    // console.log(sliderId, modelValue, highValue, pointerType);
 
     // Get percentage in seconds:
     if ( $scope.playState === 'play') {
@@ -72,7 +72,7 @@ angular.module('DrivePi.controllers', [])
 
   // Restore the last song state from local storage:
   dataStore = Storage.restore();
-  console.log('datastore: ',dataStore);
+  // console.log('datastore: ',dataStore);
 
   // Add track(s) to the queue so that they may be played:
   addToPlaylist = function(path){
@@ -98,12 +98,13 @@ angular.module('DrivePi.controllers', [])
       if (dataStore && stateLoaded == false) {
         // console.log(dataStore);
         $timeout(function() {
-          var path = dataStore.songPath;
+          var path = dataStore.currentSong.songPath;
           $scope.getNewDirectory(path);
-          // addToPlaylist(path);
+
+          addToPlaylist(path);
 
           // If last track and we're set to Album Repeat, go to track '0' (first track)
-          // mpdClient.play(0);
+          mpdClient.play(0);
           stateLoaded = true;
         })
       }
@@ -142,6 +143,14 @@ angular.module('DrivePi.controllers', [])
       // TODO: Check if we can failsafe the connection/reconnection
       $scope.mpdStatus = "Disconnected";
       console.log('Reconnecting...');
+      /* Retry the connection: */
+      $timeout(function(){
+        mpdState = mpdClient.getState();
+        console.log(mpdState);
+        if (mpdState.connected) {
+          location.reload();
+        }
+      }, 500);
     };
 
   }, 1000);
@@ -235,9 +244,12 @@ angular.module('DrivePi.controllers', [])
 
 // Get the current directory:
     $scope.currentDirectory = [];
+
     $scope.getNewDirectory = function(path){
 
       $timeout(function() {
+        console.log('path recieved: ', SwitchPath.get());
+        path = $scope.returnAlbumPath(path);
 
           MPDServices.getDirectory(path).then(function(dirContents){
 
@@ -273,6 +285,13 @@ angular.module('DrivePi.controllers', [])
 
     };
 
+    $scope.switchToDirectory = function(path){
+      $state.go('songlist');
+      console.log('path sent: ',path);
+      SwitchPath.set(path);
+      $scope.getNewDirectory();
+    }
+
     $scope.songSearch = function(){
       $scope.results = [];
       console.log('click');
@@ -306,6 +325,9 @@ angular.module('DrivePi.controllers', [])
 .controller('MusicCtrl', function( $scope, $rootScope, $stateParams, $window, $interval, $timeout, MPDServices, Storage, NowPlayingFactory ) {
 
   $scope.basePath = 'Music';
+  if ( dataStore ) {
+    $scope.favourites = dataStore.favourites;
+  }
   var params = $stateParams;
   var dirName = '';
 
@@ -399,8 +421,13 @@ angular.module('DrivePi.controllers', [])
           };
 
           // Update the local Storage:
+          if ( !dataStore ) {
+            dataStore = { currentSong:{}, favourites:{} };
+          }
     			dataStore.currentSong = songObject;
-    			Storage.save();
+          dataStore.favourites[songObject.songTitle] = songObject;
+
+    			Storage.save(dataStore);
         }, 1000);
 
       }else{
