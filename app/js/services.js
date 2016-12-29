@@ -1,5 +1,6 @@
-var dataStore = [];
+var dataStore = {};
 var lastNavigatedPath = '';
+var favourites = [];
 
 angular.module('DrivePi.music', [])
 
@@ -8,12 +9,13 @@ angular.module('DrivePi.music', [])
   // Local storage:
     return {
 
-      save: function () {
-        window.localStorage['localStorage'] = JSON.stringify(dataStore);
+      save: function (value) {
+        window.localStorage.setItem('dataStore', JSON.stringify(value));
+        // console.log('saved.');
       },
       restore: function() {
-				if (window.localStorage['localStorage']) {
-        	var storedData = JSON.parse(window.localStorage['localStorage']);
+				if ( window.localStorage.getItem('dataStore') ) {
+        	var storedData = JSON.parse(window.localStorage.getItem('dataStore'));
 	        return storedData;
 				}
       }
@@ -21,6 +23,20 @@ angular.module('DrivePi.music', [])
     };
   }]
 )
+
+.factory('SwitchPath', function(){
+
+  var path = 'music';
+
+  return {
+    set: function (path_passed) {
+      path = path_passed;
+    },
+    get: function() {
+      return path;
+    }
+  }
+})
 
 .factory('MPDServices', function($q, $timeout, $http, $log, $rootScope, $q) {
 
