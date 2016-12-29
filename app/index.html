@@ -25,7 +25,11 @@
     <div class="main-viewport">
 
       <div class="notify-widget">
-        <div class="content-wrapper"><span class="clock" ng-bind="getTime()"></span> <span class="notification-rt">MPD: {{mpdStatus}}</span></div>
+        <div class="content-wrapper">
+          <span class="clock" ng-bind="getTime()"></span>
+          <span class="view-title" ng-bind="getViewTitle()"></span>
+          <span class="notification-rt">MPD: {{mpdStatus}}</span>
+        </div>
       </div>
 
       <div ui-view class="ui-view-container"></div>
