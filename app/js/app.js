@@ -40,6 +40,20 @@ angular.module('DrivePi', [
       }
     })
 
+    .state('songlist', {
+      url: '/music/songlist',
+      cache: false,
+      templateUrl: 'views/partials/songlist.html',
+      controller: 'MusicCtrl'
+    })
+
+    .state('favourites', {
+      url: '/music/favourites',
+      cache: false,
+      templateUrl: 'views/partials/favourites.html',
+      controller: 'MusicCtrl'
+    })
+
     .state('radio', {
       url: '/radio',
       cache: false,
