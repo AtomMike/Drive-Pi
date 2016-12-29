@@ -1,0 +1,26 @@
+<div class="view">
+
+  <header>
+    <h2 ng-bind="getAlbumTitle()"></h2>
+  </header>
+
+  <div class="file-nav-wrapper">
+
+    <div class="dir-nav-column">
+      <div ng-include="'views/partials/music-nav.html'"></div>
+    </div>
+    <div class="dir-nav-column sub-nav">
+      <div ng-include="'views/partials/music-sub-nav.html'"></div>
+    </div>
+
+    <div ng-scroll class="list track-list">
+      <ul>
+        <track-item ng-repeat="(key, value) in directoryContents track by $index" data-itemType="{{value.itemType}}" data-trackId="{{value.trackId}}"
+        data-trackTitle="{{value.track}}" data-dirName="{{value.dirname}}" data-dirPath="{{value.path}}"
+        data-now-playing="{{nowPlaying}}"></track-item>
+      </ul>
+    </div>
+
+  </div>
+
+</div>

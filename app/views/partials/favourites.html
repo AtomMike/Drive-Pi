@@ -1,0 +1,28 @@
+<div class="view">
+
+  <header>
+    <h2 ng-bind="getAlbumTitle()"></h2>
+  </header>
+
+  <div class="file-nav-wrapper">
+
+    <div class="dir-nav-column">
+      <div ng-include="'views/partials/music-nav.html'"></div>
+    </div>
+
+    <div ng-scroll class="list track-list gallery-grid">
+
+      <div class="gallery-item thumb" ng-repeat="(key, value) in favourites">
+        <a title="Go to album" ng-click="switchToDirectory(value.songPath)">
+          <div class="thumb-image" background-img="{{value.songPath}}"></div>
+          <div class="thumb-caption">
+            <p>{{value.songAlbum}}</p>
+          </div>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
